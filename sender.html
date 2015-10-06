@@ -46,7 +46,7 @@ input {
 </style>
 <script type="text/javascript" src="//www.gstatic.com/cv/js/sender/v1/cast_sender.js"></script>
 <script type="text/javascript">
-var applicationID = '794B7BBF';
+var applicationID = 'E22AE2DE';
 var namespace = 'urn:x-cast:com.google.cast.sample.helloworld';
 var session = null;
 
@@ -105,6 +105,10 @@ function sessionListener(e) {
   session = e;
   session.addUpdateListener(sessionUpdateListener);  
   session.addMessageListener(namespace, receiverMessage);
+
+  document.getElementById("help").style.display = "none";
+  document.getElementById("form").style.display = "inline";
+
 }
 
 /**
@@ -116,6 +120,8 @@ function sessionUpdateListener(isAlive) {
   appendMessage(message);
   if (!isAlive) {
     session = null;
+    document.getElementById("help").style.display = "inline";
+    document.getElementById("form").style.display = "none";
   }
 };
 
@@ -194,7 +200,9 @@ function transcribe(words) {
   <table id="wrapper">
 	<tr>
 		<td>
-			<form method="get" action="JavaScript:update();">
+      <h2 id="help"><a href="javascript:chrome.cast.requestSession(sessionListener);">Connect to Chromecast</a></h2>
+			<form id="form" method="get" action="JavaScript:update();" style="display:none;">
+        <label for="input">Enter join Code (don't mess up)
 				<input id="input" class="border" type="text" size="30" onwebkitspeechchange="transcribe(this.value)" x-webkit-speech/>
 			</form>
 		</td>
